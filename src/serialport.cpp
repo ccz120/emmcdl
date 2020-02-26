@@ -43,15 +43,43 @@ SerialPort::~SerialPort() {
 int SerialPort::Open(int port) {
 	char tPath[32];
 	struct termios tio;
+	unsigned int i;
 
 	sprintf(tPath, "/dev/ttyUSB%d", port);
 	// Open handle to serial port and set proper port settings
 	hPort = emmcdl_open(tPath, O_RDWR | O_NOCTTY | O_NONBLOCK);
 
-	if (hPort < 0) {
+	if (hPort < 0) { 
                 printf("open serial port:%s fail\n", tPath);
-		return -1;
-	}
+		//return -1;
+		for(i=0; i<9; i++)
+		{
+			sprintf(tPath, "/dev/ttyUSB%d", i);
+			hPort = emmcdl_open(tPath, O_RDWR | O_NOCTTY | O_NONBLOCK);
+			if (hPort < 0) 
+		        	printf("open serial port:%s fail\n", tPath);
+				//return -1;
+			else
+				break;	
+
+		}
+#if 0
+		sprintf(tPath, "/dev/ttyUSB%d", 1);
+		hPort = emmcdl_open(tPath, O_RDWR | O_NOCTTY | O_NONBLOCK);
+		if (hPort < 0) { 
+		        printf("open serial port:%s fail\n", tPath);
+			//return -1;
+			sprintf(tPath, "/dev/ttyUSB%d", 2);
+			hPort = emmcdl_open(tPath, O_RDWR | O_NOCTTY | O_NONBLOCK);
+			if (hPort < 0) { 
+				printf("open serial port:%s fail\n", tPath);
+				return -1;
+			}
+		} 
+#endif
+	} 
+
+	printf("open serial port:%s succeed\n", tPath);
 
 	bzero(&tio, sizeof(tio));
 	tio.c_lflag = 0; /*disable CANON, ECHO*, etc */
