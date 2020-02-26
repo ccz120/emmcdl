@@ -8,6 +8,6 @@
 alias emm53='sudo emmcdl -f prog_emmc_firehose_8953_ddr.mbn -x rawprogram_unsparse.xml && sudo emmcdl -f prog_emmc_firehose_8953_ddr.mbn -x patch0.xml  && sudo emmcdl -f prog_emmc_firehose_8953_ddr.mbn -r'
 
 3）终端进入高通大版本编译完成的镜像目录下，即 bin_for_dl 目录下：
-在中断下运行 emm53
+在终端下运行 emm53
 
 
